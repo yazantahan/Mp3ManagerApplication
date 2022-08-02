@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MP3ManagerApplication", "MP3ManagerApplication\MP3ManagerApplication.csproj", "{2AEFA0B9-8893-4C87-8B6F-7787E8FB28DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MP3ManagerApplicationTests", "MP3ManagerApplicationTests\MP3ManagerApplicationTests.csproj", "{DDD7EBCE-12D6-4521-A3CE-CFA4CE05B493}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2AEFA0B9-8893-4C87-8B6F-7787E8FB28DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AEFA0B9-8893-4C87-8B6F-7787E8FB28DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AEFA0B9-8893-4C87-8B6F-7787E8FB28DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AEFA0B9-8893-4C87-8B6F-7787E8FB28DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDD7EBCE-12D6-4521-A3CE-CFA4CE05B493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDD7EBCE-12D6-4521-A3CE-CFA4CE05B493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDD7EBCE-12D6-4521-A3CE-CFA4CE05B493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDD7EBCE-12D6-4521-A3CE-CFA4CE05B493}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D574BB1D-335F-4446-A173-6C1C207C6718}
+	EndGlobalSection
+EndGlobal
