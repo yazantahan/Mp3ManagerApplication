@@ -52,7 +52,8 @@ namespace MP3ManagerApplication.Pages.UI
                         isSelected = true;
                         mp3Engine = MP3Engine.setDirectoryPath(fb.SelectedPath);
                         break;
-                    } else if (dr == DialogResult.Cancel)
+                    }
+                    else if (dr == DialogResult.Cancel)
                     {
                         break;
                     }

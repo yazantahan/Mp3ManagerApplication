@@ -92,7 +92,7 @@ namespace MP3ManagerApplication.Pages.UI
                                 {
                                     Console.Clear();
                                     Console.WriteLine("Editing the .mp3 info");
-                                    
+
                                     mp3Engine.editMP3Info(artist, title, selected_index);
 
                                     Console.WriteLine("The .mp3 info has been edited, Would you like to move it to the artist folder? (type Y if you want)");

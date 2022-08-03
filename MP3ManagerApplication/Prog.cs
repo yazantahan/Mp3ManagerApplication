@@ -1,9 +1,8 @@
 ﻿using MP3ManagerApplication.Pages.UI;
-using System;
-using System.Windows.Forms;
-using System.IO;
-
 using NLog;
+using System;
+using System.IO;
+using System.Windows.Forms;
 
 namespace MP3ManagerApplication
 {

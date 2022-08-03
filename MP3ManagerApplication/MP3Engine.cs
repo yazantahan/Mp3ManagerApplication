@@ -32,6 +32,7 @@ namespace MP3ManagerApplication
 
         private List<string> mp3Files;
         private FolderCollector fc;
+        private FileManager fm;
 
         private List<string> initNewMP3Files()
         {
@@ -73,6 +74,7 @@ namespace MP3ManagerApplication
             arr = null;
 
             fc = FolderCollector.init(directoryPath);
+            fm = new FileManager();
         }
 
         public MP3Engine()
@@ -299,8 +301,8 @@ namespace MP3ManagerApplication
             if (directoryPath != mainDirectoryPath)
             {
                 mainDirectoryPath = directoryPath;
-                refreshList();
             }
+            refreshList();
         }
 
         /// <summary>
@@ -361,31 +363,7 @@ namespace MP3ManagerApplication
             }
             else
             {
-                if (System.IO.File.Exists(mainDirectoryPath + '\\' + artist + " - " + title + ".mp3"))
-                {
-                    if (!System.IO.File.Exists(mainDirectoryPath + '\\' + artist + " - " + title + " - Copy.mp3"))
-                    {
-                        renameFile(filePath, artist + " - " + title + " - Copy.mp3");
-                    }
-                    else
-                    {
-                        for (int i = 2; i < int.MaxValue; i++)
-                        {
-                            if (System.IO.File.Exists(mainDirectoryPath + "\\" + artist + " - " + title + " - Copy (" + i + ").mp3"))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                renameFile(filePath, artist + " - " + title + " - Copy (" + i + ").mp3");
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    renameFile(filePath, artist + " - " + title + ".mp3");
-                }
+                fm.RenameFile(filePath, artist + " - " + title + ".mp3");
             }
         }
 
@@ -402,38 +380,9 @@ namespace MP3ManagerApplication
             if (!Directory.Exists(artistPath))
             {
                 Directory.CreateDirectory(artistPath);
+            }
 
-                moveMP3File(filePath, artistPath + "\\" + artist + " - " + title + ".mp3");
-            }
-            else
-            {
-                if (System.IO.File.Exists(artistPath + "\\" + artist + " - " + title + ".mp3"))
-                {
-                    if (!System.IO.File.Exists(artistPath + "\\" + artist + " - " + title + " - Copy.mp3"))
-                    {
-                        moveMP3File(filePath, artistPath + "\\" + artist + " - " + title + " - Copy.mp3");
-                    }
-                    else
-                    {
-                        for (int i = 2; i < int.MaxValue; i++)
-                        {
-                            if (System.IO.File.Exists(artistPath + "\\" + artist + " - " + title + " - Copy (" + i + ").mp3"))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                moveMP3File(filePath, artistPath + "\\" + artist + " - " + title + " - Copy (" + i + ").mp3");
-                                break;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    moveMP3File(filePath, artistPath + '\\' + artist + " - " + title + ".mp3");
-                }
-            }
+            fm.RenameAndMoveFile(filePath, artistPath + "\\" + artist + " - " + title + ".mp3");
         }
 
         /// <summary>
@@ -498,7 +447,7 @@ namespace MP3ManagerApplication
                 string mp3Filename = Path.GetFileName(mp3File);
                 Console.WriteLine("Moving the filename named -> " + mp3Filename);
 
-                extractMP3File(mp3File, mainDirectoryPath + '\\' + mp3Filename);
+                fm.MoveFile(mp3File, mainDirectoryPath);
             }
 
             Console.WriteLine("All the .mp3 files has ben extracted successfully!" +
@@ -511,9 +460,9 @@ namespace MP3ManagerApplication
             {
                 Console.WriteLine("Deleing the subfolders");
 
-                foreach (var folders in listChildFolders)
+                foreach (var folder in listChildFolders)
                 {
-                    Directory.Delete(folders);
+                    fm.DeleteFile(folder);
                 }
 
                 Console.WriteLine("All the folders has been deleted!");
@@ -526,45 +475,12 @@ namespace MP3ManagerApplication
         }
 
         /// <summary>
-        /// This Function is used to extract the .mp3 file from the source path to the destination path
-        /// </summary>
-        /// <param name="sourceFile">The source of the .mp3 file</param>
-        /// <param name="destFile">The destination of the .mp3 file</param>
-        private void extractMP3File(string sourceFile, string destFile)
-        {
-            if (!System.IO.File.Exists(destFile))
-            {
-                System.IO.File.Move(sourceFile, destFile);
-            }
-            else
-            {
-                string mp3Filename = Path.GetFileNameWithoutExtension(destFile);
-
-                if (!System.IO.File.Exists(mainDirectoryPath + '\\' + mp3Filename + " - Copy.mp3"))
-                {
-                    System.IO.File.Move(sourceFile, mainDirectoryPath + '\\' + mp3Filename + " - Copy.mp3");
-                }
-                else
-                {
-                    for (int i = 2; i < int.MaxValue; i++)
-                    {
-                        if (!System.IO.File.Exists(mainDirectoryPath + '\\' + mp3Filename + " - Copy (" + i + ").mp3"))
-                        {
-                            System.IO.File.Move(sourceFile, mainDirectoryPath + '\\' + mp3Filename + " - Copy (" + i + ").mp3");
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// This Function is used to Delete the .mp3 file
         /// </summary>
         /// <param name="index">The index of the selected .mp3 file</param>
         public void deleteMP3File(int index)
         {
-            System.IO.File.Delete(mp3Files.ElementAt(index - 1));
+            fm.DeleteFile(mp3Files.ElementAt(index - 1));
         }
 
         /// <summary>
@@ -651,26 +567,6 @@ namespace MP3ManagerApplication
         {
             return sym == '?' || sym == '/' || sym == '\\' || sym == '<' || sym == '>' || sym == '|' || sym == '*' || sym == '\"'
                 || sym == ':';
-        }
-
-        /// <summary>
-        /// Renames the .mp3 filename by taking 2 Parameters without using the directory path. instead, it uses the Main directory path
-        /// </summary>
-        /// <param name="originalFileName"> the original .mp3 Filename</param>
-        /// <param name="renamedFileName"> the renamed .mp3 filename</param>
-        private void renameFile(string originalFileName, string renamedFileName)
-        {
-            System.IO.File.Move(originalFileName, mainDirectoryPath + "\\" + renamedFileName);
-        }
-
-        /// <summary>
-        /// This Function is used to move a .MP3 File
-        /// </summary>
-        /// <param name="sourceFile">The Path of the source file</param>
-        /// <param name="destFile">The Path of the Destination file</param>
-        private void moveMP3File(string sourceFile, string destFile)
-        {
-            System.IO.File.Move(sourceFile, destFile);
         }
 
         /// <summary>
