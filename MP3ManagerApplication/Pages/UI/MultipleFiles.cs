@@ -58,12 +58,15 @@ namespace MP3ManagerApplication.Pages.UI
                         if (Prog.isYes())
                             moveLegal = true;
 
+                        Prog.isAsync = false;
+
+                        Console.Clear();
                         for (int i = 1; i <= mp3Engine.getMP3FilesSize(); i++)
                         {
-                            Console.Clear();
                             string artist = mp3Engine.getArtistFromFileName(i);
                             string title = mp3Engine.getTitleFromFileName(i);
 
+                            Console.SetCursorPosition(0, 0);
                             Console.WriteLine("\rProcessing the file named: " + mp3Engine.getMP3FileName(i));
                             Console.Write(String.Format("\n\rTotal files completed: {0:P2}", Prog.calcPercentage(i - 1, mp3Engine.getMP3FilesSize())));
 
@@ -83,14 +86,15 @@ namespace MP3ManagerApplication.Pages.UI
                             {
                                 nonFormattable.Add(mp3Engine.getMP3FileName(i));
                             }
-                            Thread.Sleep(100);
+                            Thread.Sleep(50);
                         }
+                        Prog.isAsync = true;
 
                         mp3Engine.refreshList();
 
                         Console.Clear();
 
-                        Console.WriteLine("All the .mp3 files has been extracted successfully!");
+                        Console.WriteLine("All the .mp3 files has been Organized successfully!");
 
                         if (nonFormattable.Count != 0)
                         {
@@ -112,12 +116,15 @@ namespace MP3ManagerApplication.Pages.UI
                         if (Prog.isYes())
                             moveLegal = true;
 
+                        Prog.isAsync = false;
+
+                        Console.Clear();
                         for (int i = 1; i <= mp3Engine.getMP3FilesSize(); i++)
                         {
-                            Console.Clear();
                             string artist = mp3Engine.getArtistField(i);
                             string title = mp3Engine.getTitleField(i);
 
+                            Console.SetCursorPosition(0, 0);
                             Console.WriteLine("\rProcessing the file named: " + mp3Engine.getMP3FileName(i));
                             Console.Write(String.Format("\n\rTotal files completed: {0:P2}", Prog.calcPercentage(i - 1, mp3Engine.getMP3FilesSize())));
 
@@ -135,14 +142,15 @@ namespace MP3ManagerApplication.Pages.UI
                                 nonFormattable.Add(mp3Engine.getMP3FileName(i));
                             }
 
-                            Thread.Sleep(100);
+                            Thread.Sleep(50);
                         }
+                        Prog.isAsync = true;
 
                         mp3Engine.refreshList();
 
                         Console.Clear();
 
-                        Console.WriteLine("All the .mp3 files has been extracted successfully!");
+                        Console.WriteLine("All the .mp3 files has been Organized successfully!");
 
                         if (nonFormattable.Count != 0)
                         {

@@ -101,7 +101,10 @@ namespace MP3ManagerApplication.Pages.UI
                                     {
                                         Prog.Logger.Info("Moving to the artist folder named -> " + mp3Engine.getMP3FileName(selected_index));
                                         Console.WriteLine("Moving to the artist folder...");
+
+                                        Prog.isAsync = false;
                                         mp3Engine.moveToArtistFolder(artist, title, selected_index);
+                                        Prog.isAsync = true;
 
                                         Console.WriteLine("The File has been moved successfully!");
                                     }
@@ -154,9 +157,11 @@ namespace MP3ManagerApplication.Pages.UI
                                         moveLegal = true;
                                     }
 
+                                    Prog.isAsync = false;
                                     mp3Engine.renameMP3FileName(artist, title, selected_index, moveLegal);
 
                                     mp3Engine.refreshList();
+                                    Prog.isAsync = true;
 
                                     Console.WriteLine("The file has been organized successfully!");
                                     Console.WriteLine("\nPress any key to continue...");
@@ -217,6 +222,7 @@ namespace MP3ManagerApplication.Pages.UI
                                     }
                                 }
 
+                                Prog.isAsync = false;
                                 Console.WriteLine("Editing the .mp3 info");
                                 mp3Engine.editMP3Info(artist, title, album, selected_index);
 
@@ -235,6 +241,7 @@ namespace MP3ManagerApplication.Pages.UI
 
                                     mp3Engine.renameMP3FileName(artist, title, selected_index, moveLegal);
                                 }
+                                Prog.isAsync = true;
 
                                 mp3Engine.refreshList();
 
@@ -260,6 +267,10 @@ namespace MP3ManagerApplication.Pages.UI
                             }
                         }
 
+                        if (isOrganized == true)
+                        {
+                            break;
+                        }
                     }
                     else if (mp3Engine.validateMP3File(choice) == MP3Engine.INDEX_IS_EMPTY)
                     {

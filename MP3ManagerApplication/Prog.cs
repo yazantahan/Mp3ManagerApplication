@@ -3,6 +3,7 @@ using NLog;
 using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace MP3ManagerApplication
 {
@@ -18,6 +19,8 @@ namespace MP3ManagerApplication
 
         public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static bool isAsync = false;
+
         [STAThread]
         public static void Main()
         {
@@ -29,6 +32,12 @@ namespace MP3ManagerApplication
             directoryUI = DirectoryUI.Start(DirectoryUI.BROWSER_SELECT);
             directoryUI.Run(ref mp3Engine);
             directoryUI.Dispose();
+
+            isAsync = true;
+
+            Thread thread = new Thread(()=>KeepRefresh(ref mp3Engine));
+            thread.Start();
+
 
             while (choice != 7 && DirectoryUI.isSelected == true)
             {
@@ -117,6 +126,7 @@ namespace MP3ManagerApplication
                     "\n------------                        Thank you for using this app.                        ---------------" +
                     "\n------------                  Created and developed by Yazan Al-Tahan                    ---------------" +
                     "\n------------  If there is any feedback please send us an email: thn.soperma@gmail.com    ---------------" +
+                    "\n------------                        Press any key to continue...                         ---------------" +
                     "\n--------------------------------------------------------------------------------------------------------");
                 Console.ReadKey();
             }
@@ -178,7 +188,7 @@ namespace MP3ManagerApplication
             }
 
             return Yes;
-        }
+        } 
 
         public static double calcPercentage(double subTotal, double total)
         {
@@ -210,6 +220,18 @@ namespace MP3ManagerApplication
 
             // Apply config           
             NLog.LogManager.Configuration = config;
+        }
+
+        private static void KeepRefresh(ref MP3Engine mp3Engine)
+        {
+            while (true)
+            {
+                Thread.Sleep(2000);
+                if (isAsync == true)
+                {
+                    mp3Engine.refreshList();
+                }
+            }
         }
     }
 }

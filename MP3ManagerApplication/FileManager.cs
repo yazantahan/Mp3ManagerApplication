@@ -45,9 +45,9 @@ namespace MP3ManagerApplication
         /// <param name="filePath">the selected File Path</param>
         public void DeleteFile(string filePath)
         {
-            if (File.Exists(filePath))
+            if (Directory.Exists(filePath))
             {
-                File.Delete(filePath);
+                Directory.Delete(filePath, true);
             }
         }
 

@@ -31,11 +31,14 @@ namespace MP3ManagerApplication.Pages.UI
 
                 if (Prog.isYes())
                 {
+                    Prog.isAsync = false;
                     Prog.Logger.Info("Starting to extract .mp3 files");
                     mp3Engine.extractMP3Files();
 
                     Console.WriteLine("All the .mp3 files has been extracted successfully!\nPress any key to continue.");
                     Console.ReadKey();
+                    Console.WriteLine();
+                    Prog.isAsync = true;
                 }
             }
             else
